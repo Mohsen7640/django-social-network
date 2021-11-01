@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Delete Post
+{% endblock title %}
+
+{% block content %}
+
+    {% include 'post/partial/messages.html' %}
+
+    {% if not messages %}
+        <div class="ui segment">
+            <h3>Delete post?</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <p>Are you sure you want to delete the post?</p>
+                {{ obj.content }}
+                <button type='submit'>Delete</button>
+            </form>
+        </div>
+    {% endif %}
+
+{% endblock content %}

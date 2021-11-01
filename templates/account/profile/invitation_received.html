@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Invitation Received
+{% endblock title %}
+
+
+{% block content %}
+    {% if is_empty %}
+        <h1>No invitations here ...</h1>
+    {% endif %}
+    {% for obj in qs %}
+        <div class="ui segment">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="three wide column">
+                        <img class="ui small circular image" src="{{obj.avatar.url}}">
+                    </div>
+                    <div class="thirteen wide column">
+                        <h3>{{obj.user}}</h3>
+                        <p>{{obj.bio}}</p>
+                        <a href="{{ obj.get_absolute_url }}">
+                            <button class="ui primary button mb-5 w-big">See profile</button>
+                        </a>
+
+                        <form action="{% url 'account:invitation-accept' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value="{{obj.pk}}">
+                            <button class="ui positive basic button mb-5 w-big"><i class="check icon"></i>Accept Invitation</button>
+                        </form>
+
+                        <form action="{% url 'account:invitation-reject' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value="{{obj.pk}}">
+                            <button class="ui negative basic button mb-5 w-big"><i class="close icon"></i>Reject Invitation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
